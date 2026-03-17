@@ -1,0 +1,103 @@
+# ================================
+# 敏感文件 - 绝对不要提交！
+# ================================
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# ================================
+# 后端 (Rust)
+# ================================
+# 编译输出
+backend/target/
+backend/**/*.rs.bk
+*.pdb
+
+# Cargo
+Cargo.lock
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+memory.db
+
+# 日志
+*.log
+logs/
+
+# ================================
+# 前端 (Tauri + Vue)
+# ================================
+# 依赖
+frontend/node_modules/
+
+# 构建产物
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+
+# Tauri
+frontend/src-tauri/target/
+frontend/src-tauri/gen/
+
+# ================================
+# IDE 和编辑器
+# ================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+*~
+
+# ================================
+# 操作系统
+# ================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ================================
+# 测试和覆盖率
+# ================================
+coverage/
+.nyc_output/
+*.lcov
+
+# ================================
+# 临时文件
+# ================================
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+
+# ================================
+# 其他
+# ================================
+# 文档生成的
+docs/_build/
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+*.stackdump
+[Dd]esktop.ini
+
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar

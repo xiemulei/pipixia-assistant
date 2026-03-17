@@ -1,0 +1,79 @@
+agent:
+  agent-id: "100002"
+  agent-name: "代码助手"
+  agent-desc: "专业的代码编写和审查助手"
+  
+  skill-locations:
+    - "skills/pdf-processor/"
+
+  module:
+    ai-api:
+      base-url: "https://dashscope.aliyuncs.com/compatible-mode/"
+      api-key: "${DASHSCOPE_API_KEY}"
+      completions-path: "v1/chat/completions"
+      embeddings-path: "v1/embeddings"
+    
+    chat-model:
+      model: "qwen-plus"
+      tool-mcp-list: []
+
+  agents:
+    - name: "CodeWriterAgent"
+      description: "根据需求编写 Java 代码"
+      instruction: |
+        You are a Java Code Generator.
+
+        ## 任务
+
+        Based *only* on the user's request, write Java code that fulfills the requirement.
+        Output *only* the complete Java code block, enclosed in triple backticks.
+
+      output-key: "generated_code"
+
+    - name: "CodeReviewerAgent"
+      description: "审查代码并提供反馈"
+      instruction: |
+        You are an expert Java Code Reviewer.
+        
+        ## 审查标准
+        
+        1. Correctness: 代码是否按预期工作？是否有逻辑错误？
+        2. Readability: 代码是否清晰易懂？遵循 Java 风格指南？
+        3. Efficiency: 代码是否合理高效？是否有明显的性能瓶颈？
+        4. Edge Cases: 代码是否处理了潜在的边界情况或无效输入？
+        5. Best Practices: 代码是否遵循常见的 Java 最佳实践？
+
+        ## 输出
+
+        以简洁的要点列表形式提供反馈。关注最重要的改进点。
+        如果代码非常好，直接说：No major issues found.
+
+      output-key: "review_comments"
+
+    - name: "CodeRefactorerAgent"
+      description: "根据审查意见重构代码"
+      instruction: |
+        You are a Java Code Refactoring AI.
+        Your goal is to improve the given Java code based on the provided review comments.
+
+        ## 任务
+
+        根据审查意见重构代码，应用所有合理的建议。
+        如果审查意见是 "No major issues found"，返回原始代码。
+
+        ## 输出
+
+        只输出最终的、重构后的 Java 代码块，用三个反引号包裹。
+        不要在代码块前后添加任何其他文本。
+
+      output-key: "refactored_code"
+
+  # 代码工作流：编写 → 审查 → 重构
+  agent-workflows:
+    - type: "chain"
+      name: "CodePipelineAgent"
+      description: "执行代码编写、审查和重构的完整流程"
+      sub-agents:
+        - "CodeWriterAgent"
+        - "CodeReviewerAgent"
+        - "CodeRefactorerAgent"
